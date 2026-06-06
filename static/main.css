@@ -364,16 +364,7 @@ p {
       rgba(247, 242, 239, 0.2),
       rgba(247, 242, 239, 0.92)
     ),
-    url("/images/hero.jpg") center/cover no-repeat;
-}
-
-.hero-inner {
-  max-width: 760px;
-}
-
-.hero p {
-  font-size: 1.15rem;
-  margin-top: 18px;
+    var(--hero-image) center/cover no-repeat;
 }
 
 /* =========================================================
