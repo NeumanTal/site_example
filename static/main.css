@@ -355,7 +355,6 @@ p {
   justify-content: center;
 
   text-align: center;
-
   padding: var(--space-10);
 
   background:
@@ -364,7 +363,7 @@ p {
       rgba(247, 242, 239, 0.2),
       rgba(247, 242, 239, 0.92)
     ),
-    url("/images/hero.jpg") center/cover no-repeat;
+    var(--hero-image) center/cover no-repeat;
 }
 
 .hero-inner {
