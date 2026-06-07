@@ -890,6 +890,19 @@ footer {
   color: var(--accent-forest);
 }
 
+
+/* =========================================================
+   MOBILE FIRST GRID + LAYOUT SYSTEM
+========================================================= */
+
+/* Base: Mobile (0–599px) */
+.grid--2,
+.grid--3,
+.grid--4 {
+  grid-template-columns: 1fr;
+}
+
+/* Mobile layout tweaks */
 @media (max-width: 768px) {
 
   .section {
@@ -912,13 +925,26 @@ footer {
   }
 }
 
-  @media (min-width: 600px) {
-  .grid--2 { grid-template-columns: repeat(2, 1fr); }
-  .grid--3 { grid-template-columns: repeat(3, 1fr); }
-  .grid--4 { grid-template-columns: repeat(2, 1fr); }
+/* Tablet: 600px+ (2 columns max) */
+@media (min-width: 600px) {
+  .grid--2,
+  .grid--3,
+  .grid--4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
+/* Desktop: 1024px+ (restore full grid intent) */
 @media (min-width: 1024px) {
-  .grid--4 { grid-template-columns: repeat(4, 1fr); }
-}
+  .grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 
+  .grid--3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .grid--4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
