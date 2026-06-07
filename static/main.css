@@ -420,7 +420,7 @@ p {
 
   text-align: center;
   padding: var(--space-10);
-
+  background-color: var(--surface-page-alt);
   background:
     linear-gradient(
       to bottom,
