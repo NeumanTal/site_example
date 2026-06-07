@@ -438,7 +438,12 @@ p {
   color: var(--text-white);
 }
 
-.hero h1,
+.hero h1
+{
+  color: var(--text-white);
+  opacity: 0.65;
+}
+
 .hero p {
   font-size: 1.15rem;
   margin-top: 18px;
