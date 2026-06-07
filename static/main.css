@@ -118,11 +118,17 @@ body {
 
 .stack { display: flex; flex-direction: column; gap: var(--space-6); }
 
+.grid > * {
+  min-width: 0;
+}
+
 .grid { display: grid; gap: var(--space-6); grid-template-columns: 1fr; }
 
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 .grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+
 
 /* =========================================================
    TYPOGRAPHY
@@ -884,10 +890,6 @@ footer {
   color: var(--accent-forest);
 }
 
-/* =========================================================
-   MOBILE
-========================================================= */
-
 @media (max-width: 768px) {
 
   .section {
@@ -908,6 +910,7 @@ footer {
     transition: opacity 0.6s ease, transform 0.6s ease;
     transform: translateY(20px);
   }
+}
 
   @media (min-width: 600px) {
   .grid--2 { grid-template-columns: repeat(2, 1fr); }
@@ -918,4 +921,4 @@ footer {
 @media (min-width: 1024px) {
   .grid--4 { grid-template-columns: repeat(4, 1fr); }
 }
-}
+
