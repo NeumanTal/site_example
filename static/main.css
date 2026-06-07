@@ -18,13 +18,14 @@
 
   --text-primary: #2f2a28;
   --text-secondary: #7a6f6b;
+  --text-white: #ffffff;
 
   --accent-forest: #5f6f63;
   --accent-sage: #c9d6c3;
   --accent-sage-strong: #9fb39a;
   --accent-blush: #d8b6b0;
 
-  --action-primary: #b9cbb3;
+  --action-primary: #2B372A;
   --action-primary-hover: #a7bda0;
   --action-text: #ffffff;
 
@@ -434,11 +435,13 @@ p {
   position: relative;
   z-index: 2;
   transform: translateY(-6%);
+  color: var(--text-white);
 }
 
 .hero p {
   font-size: 1.15rem;
   margin-top: 18px;
+  color: var(--text-white);
 }
 
 /* =========================================================
@@ -479,10 +482,10 @@ p {
 .section {
   max-width: 1050px;
   margin: 0 auto;
-  padding: var(--space-20) var(--space-6);
+  padding: var(--space-20) var(--space-2);
 }
 .section + .section {
-  margin-top: var(--space-10);
+  margin-top: var(--space-6);
 }
 
 /* =========================================================
