@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <title>Home | Serene Path Therapy</title>
-  <link rel="preload" as="image" href="/images/hero1.webp">
+  <link rel="preload" as="image" href="https://neumantal.github.io/site_example/images/hero1.webp">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
@@ -84,8 +84,14 @@
 <!-- HOME -->
  
 <section id="home" class="hero reveal">
-  <img src="/images/hero1.webp" alt="" class="hero-bg">
-
+  <img 
+    src="/images/hero1.webp" 
+    alt="" 
+    class="hero-bg"
+    fetchpriority="high"
+    loading="eager"
+    decoding="async"
+  />
   <div class="hero-inner">
     <h1>Serene Path Therapy</h1>
     <p>Restore balance through gentle therapeutic touch</p>
