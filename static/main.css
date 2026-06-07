@@ -427,7 +427,6 @@ p {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  opacity: 0.65;
 }
 
 .hero-inner {
@@ -439,6 +438,7 @@ p {
 .hero p {
   font-size: 1.15rem;
   margin-top: 18px;
+  opacity: 0.65;
 }
 
 /* =========================================================
