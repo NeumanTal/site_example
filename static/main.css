@@ -25,7 +25,7 @@
   --accent-sage-strong: #9fb39a;
   --accent-blush: #d8b6b0;
 
-  --action-primary: #2B372A;
+  --action-primary: #C3D8C1;
   --action-primary-hover: #a7bda0;
   --action-text: #ffffff;
 
@@ -438,10 +438,12 @@ p {
   color: var(--text-white);
 }
 
+.hero h1,
 .hero p {
   font-size: 1.15rem;
   margin-top: 18px;
   color: var(--text-white);
+  opacity: 0.65;
 }
 
 /* =========================================================
