@@ -1091,3 +1091,17 @@ footer {
   }
 
 }
+
+/* HOMEPAGE ONLY: make nav overlay hero */
+.home .top-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  background: transparent;
+  border-bottom: none;
+  box-shadow: none;
+
+  z-index: var(--z-10k);
+}
