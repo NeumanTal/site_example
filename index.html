@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="https://neumantal.github.io/site_example/static/main.css">
+  <link rel="stylesheet" href="/static/main.css">
 
 </head>
 
@@ -23,20 +23,50 @@
 <!-- OVERLAY -->
 <div id="menu-overlay" class="menu-overlay"></div>
 
+<!-- TOP NAV-->
+<header class="top-nav">
+    <a href="/" class="top-nav-link">
+      Home
+    </a>
+    <a href="/#services" class="top-nav-link">
+      Services
+    </a>
+    <a href="/#faq" class="top-nav-link">
+      FAQ
+    </a>
+    <a href="/#testimonials" class="top-nav-link">
+      Testimonials
+    </a>
+    <a href="/blog/" class="top-nav-link">
+      Blog
+    </a>
+</header>
+
 <!-- SIDE NAV -->
 <nav id="side-nav" class="side-nav" aria-label="Sections">
 
   <button id="close-menu" class="close-menu">&times;</button>
 
-  <a href="https://neumantal.github.io/site_example/" class="nav-link"><span class="dot"></span>Home</a>
-
-  <a href="https://neumantal.github.io/site_example/#services" class="nav-link"><span class="dot"></span>Services</a>
-
-  <a href="https://neumantal.github.io/site_example/#faq" class="nav-link"><span class="dot"></span>FAQ</a>
-
-  <a href="https://neumantal.github.io/site_example/#testimonials" class="nav-link"><span class="dot"></span>Testimonials</a>
-
-  <a href="https://neumantal.github.io/site_example/blog/" class="nav-link"><span class="dot"></span>Blog</a>
+    <a href="/" class="nav-link">
+      <span class="dot"></span>
+      Home
+    </a>
+    <a href="/#services" class="nav-link">
+      <span class="dot"></span>
+      Services
+    </a>
+    <a href="/#faq" class="nav-link">
+      <span class="dot"></span>
+      FAQ
+    </a>
+    <a href="/#testimonials" class="nav-link">
+      <span class="dot"></span>
+      Testimonials
+    </a>
+    <a href="/blog/" class="nav-link">
+      <span class="dot"></span>
+      Blog
+    </a>
 
 </nav>
 
@@ -54,7 +84,7 @@
 <!-- HOME -->
  
 <section id="home" class="hero reveal"   style="
-    --hero-image: url('https://neumantal.github.io/site_example/images/hero.jpg');">
+    --hero-image: url('/images/hero.jpg');">
 
   <div class="hero-inner">
     <h1>Serene Path Therapy</h1>
@@ -69,13 +99,17 @@
 <section id="story" class="section reveal">
 
   <h2>My Story</h2>
+ <div class="story-content">
+        <img src="/images/therapist.jpg"
+             alt="My photo"
+             class="profile-pic">
 
-  <p>
-    A calm, restorative reflexology experience designed to reduce stress,
-    improve circulation, and support natural wellbeing.
-    Each session is tailored to your body's needs in a peaceful environment.
-  </p>
-
+        <p>
+            A calm, restorative reflexology experience designed to reduce stress,
+            improve circulation, and support natural wellbeing.
+            Each session is tailored to your body's needs in a peaceful environment.
+        </p>
+    </div>
 </section>
 
 <!-- GALLERY -->
@@ -86,10 +120,10 @@
   <div class="insta-slider">
     <div class="slide-track">
 
-      <img class="zoomable" src="https://neumantal.github.io/site_example/images/clinic.jpg" alt="">
-      <img class="zoomable" src="https://neumantal.github.io/site_example/images/therapist.jpg" alt="">
-      <img class="zoomable" src="https://neumantal.github.io/site_example/images/gallery1.jpg" alt="">
-      <img class="zoomable" src="https://neumantal.github.io/site_example/images/gallery2.jpg" alt="">
+      <img class="zoomable" src="/images/clinic.jpg" alt="">
+      <img class="zoomable" src="/images/therapist.jpg" alt="">
+      <img class="zoomable" src="/images/gallery1.jpg" alt="">
+      <img class="zoomable" src="/images/gallery2.jpg" alt="">
 
     </div>
   </div>
@@ -181,7 +215,7 @@
     Insights on stress, sleep, and holistic wellbeing coming soon.
   </p>
 
-  <a class="btn" href="https://neumantal.github.io/site_example/blog">Read Blog</a>
+  <a class="btn" href="/blog">Read Blog</a>
 
 </section>
 
@@ -203,7 +237,7 @@
 </button>
 
 <!-- JS -->
-<script src="https://neumantal.github.io/site_example/static/main.js"></script>
+<script src="/static/main.js"></script>
 
 </body>
 </html>
