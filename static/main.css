@@ -414,7 +414,7 @@ p {
   position: relative;
   min-height: 100vh;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: center;
   text-align: center;
   overflow: hidden;
@@ -433,6 +433,7 @@ p {
 .hero-inner {
   position: relative;
   z-index: 2;
+  transform: translateY(-6%);
 }
 
 .hero p {
