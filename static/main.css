@@ -345,7 +345,7 @@ p {
 .top-nav-link::after {
   content: "";
   position: absolute;
-  inset-inline-start: 0; /* Logical Property Fix */
+  inset-inline-start: 0;
   bottom: calc(var(--space-2) * -1);
   width: 0;
   height: var(--stroke-thick);
@@ -363,7 +363,7 @@ p {
 .menu-toggle {
   position: fixed;
   top: var(--space-6);
-  inset-inline-start: var(--space-6); /* Logical Property Fix */
+  inset-inline-start: var(--space-6); 
   z-index: var(--z-nav);
   padding: var(--space-3) var(--space-5);
   border-radius: var(--radius-pill);
@@ -383,7 +383,7 @@ p {
 .side-nav {
   position: fixed;
   top: 0;
-  inset-inline-start: 0; /* Logical Property Fix */
+  inset-inline-start: 0; 
   width: var(--drawer-width);
   max-width: 90vw;
   height: 100vh;
@@ -393,7 +393,7 @@ p {
   gap: var(--space-7);
   background: var(--surface-glass-strong);
   backdrop-filter: blur(var(--blur-lg));
-  border-inline-end: var(--border-subtle); /* Logical Property Fix */
+  border-inline-end: var(--border-subtle); 
   transform: var(--drawer-hide);
   transition: var(--duration-base);
   z-index: var(--z-nav);
@@ -406,7 +406,7 @@ p {
 .close-menu {
   position: absolute;
   top: var(--space-7);
-  inset-inline-end: var(--space-7); /* Logical Property Fix */
+  inset-inline-end: var(--space-7);
   background: none;
   border: none;
   font-size: var(--font-close-icon);
@@ -461,7 +461,7 @@ p {
 ========================================================= */
 .scrollTopBtn, #scrollTopBtn {
   position: fixed;
-  inset-inline-end: var(--space-5); /* Logical Property Fix */
+  inset-inline-end: var(--space-5); 
   bottom: 6.8rem;
   width: var(--height-scroll-btn);
   height: var(--height-scroll-btn);
@@ -615,12 +615,12 @@ p {
 }
 
 .insta-slider::before {
-  inset-inline-start: 0; /* Logical Property Fix */
+  inset-inline-start: 0;
   background: linear-gradient(to var(--fade-inline-end), var(--surface-page), var(--surface-fade));
 }
 
 .insta-slider::after {
-  inset-inline-end: 0; /* Logical Property Fix */
+  inset-inline-end: 0; 
   background: linear-gradient(to var(--fade-inline-start), var(--surface-page), var(--surface-fade));
 }
 
@@ -652,6 +652,10 @@ p {
    COMPONENTS (Cards, Pricing, FAQs)
 ========================================================= */
 .card {
+  background: var(--surface-card);
+  border: var(--border-subtle);
+  backdrop-filter: blur(var(--blur-md));
+  box-shadow: var(--elevation-card);
   border-radius: var(--radius-card);
   padding: var(--space-8);
 }
@@ -676,6 +680,10 @@ p {
 }
 
 .faq-item {
+  background: var(--surface-card);
+  border: var(--border-subtle);
+  backdrop-filter: blur(var(--blur-md));
+  box-shadow: var(--elevation-subtle);
   border-radius: var(--radius-control);
   padding: var(--space-5);
   margin-bottom: var(--space-3);
@@ -790,7 +798,7 @@ p {
 .article-body ul,
 .article-body ol {
   margin-bottom: var(--space-6);
-  padding-inline-start: var(--space-8); /* Logical Property Fix */
+  padding-inline-start: var(--space-8); 
 }
 
 .article-body li {
