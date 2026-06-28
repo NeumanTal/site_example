@@ -666,7 +666,8 @@ p {
   padding: var(--space-8);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
   text-align: center;
   transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
   background:var(--surface-card);
@@ -742,6 +743,8 @@ p {
 .contact-pill a {
   color: var(--color-text);
   text-decoration: none;
+  align-items: center;
+  justify-content: center;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-pill);
   transition: var(--duration-base);
