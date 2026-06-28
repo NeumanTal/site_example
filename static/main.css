@@ -666,30 +666,17 @@ p {
   padding: var(--space-8);
   display: flex;
   flex-direction: column;
-  height: 100%;
-  text-align: center;
-  transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
-  background: var(--surface-card);
-  border: var(--border-subtle);
-  box-shadow: var(--elevation-card);
-}
-.pricing-card {
-  backdrop-filter: blur(20px);
-  border-radius: var(--radius-modal);
-  padding: var(--space-8);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  justify-content: space-between;
   text-align: center;
   transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
   background:var(--surface-card);
   border:var(--border-subtle);
   box-shadow:var(--elevation-card);
-}  
+}
 
-
-.pricing-card .price-content {
-  flex-grow: 1; 
+.pricing-card:hover {
+  transform: var(--translate-hover-pricing);
+  box-shadow: var(--elevation-floating);
 }
 
 .pricing-card:hover {
