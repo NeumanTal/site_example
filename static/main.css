@@ -565,24 +565,110 @@ p {
 
 
 /* =========================================================
-   GALLERY 
+   GALLERY
 ========================================================= */
-.gallery-container {
-  display: column; /* Uses column-count to handle masonry */
-  column-count: 3; /* Adjusts for larger screens */
-  column-gap: 16px;
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: var(--space-5);
 }
 
 .gallery-item {
-  width: 100%;
-  margin-bottom: 16px;
-  break-inside: avoid; /* Prevents images from splitting across columns */
-  border-radius: var(--radius-card);
-  transition: transform 0.2s;
+    overflow: hidden;
+    border-radius: var(--radius-modal);
 }
 
-@media (max-width: 1000px) { .gallery-container { column-count: 2; } }
-@media (max-width: 600px) { .gallery-container { column-count: 1; } }
+.gallery-item img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    display: block;
+
+    cursor: pointer;
+
+    transition:
+        transform .25s ease,
+        filter .25s ease,
+        box-shadow .25s ease;
+
+    box-shadow: var(--shadow-editorial);
+}
+
+.gallery-item img:hover {
+    transform: scale(1.04);
+}
+
+
+/* =========================================================
+   LIGHTBOX
+========================================================= */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0,0,0,.92);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .25s;
+
+    z-index: 9999;
+}
+
+.lightbox.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.lightbox img {
+    max-width: 92vw;
+    max-height: 90vh;
+    object-fit: contain;
+}
+
+.lightbox-btn {
+    position: absolute;
+
+    width: 54px;
+    height: 54px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.18);
+
+    color: white;
+
+    font-size: 32px;
+
+    cursor: pointer;
+
+    transition: background .2s;
+}
+
+.lightbox-btn:hover {
+    background: rgba(255,255,255,.35);
+}
+
+.lightbox-prev {
+    left: 24px;
+}
+
+.lightbox-next {
+    right: 24px;
+}
+
+.lightbox-close {
+    top: 24px;
+    right: 24px;
+}
 
 /* =========================================================
    COMPONENTS (Cards, Pricing, FAQs)
