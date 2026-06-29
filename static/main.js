@@ -147,15 +147,19 @@ function showPrev() {
 const nextBtn = $("#lightbox-next");
 const prevBtn = $("#lightbox-prev");
 
-if (nextBtn) nextBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showNext();
-});
+if (nextBtn) {
+    nextBtn.addEventListener("pointerup", (e) => {
+        e.stopPropagation();
+        showNext();
+    });
+}
 
-if (prevBtn) prevBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    showPrev();
-});
+if (prevBtn) {
+    prevBtn.addEventListener("pointerup", (e) => {
+        e.stopPropagation();
+        showPrev();
+    });
+}
 
 /* =========================================================
    MENU SYSTEM
@@ -255,3 +259,37 @@ window.addEventListener("scroll", () => {
 });
 
 window.addEventListener("load", updateActiveSection);
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+const SWIPE_THRESHOLD = 50;
+
+function handleSwipe() {
+    if (!UI.lightboxOpen) return;
+
+    const deltaX = touchEndX - touchStartX;
+
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+
+    if (deltaX < 0) {
+        // swipe left → next image
+        showNext();
+    } else {
+        // swipe right → previous image
+        showPrev();
+    }
+}
+
+/* Attach to lightbox image area */
+if (lightbox) {
+
+    lightbox.addEventListener("touchstart", (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    lightbox.addEventListener("touchend", (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    });
+}
