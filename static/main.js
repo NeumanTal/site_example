@@ -4,7 +4,6 @@
 
 const UI = {
   menuOpen: false,
-  lightboxOpen: false,
 };
 
 /* =========================================================
@@ -30,41 +29,6 @@ const revealObserver = new IntersectionObserver((entries) => {
 document.querySelectorAll(".reveal").forEach((el) => {
   revealObserver.observe(el);
 });
-
-/* =========================================================
-   LIGHTBOX CONTROLLER
-========================================================= */
-
-const lightbox = $("#lightbox");
-const lightboxImg = $("#lightbox-img");
-
-function openLightbox(src) {
-  if (!lightbox || !lightboxImg) return;
-
-  lightboxImg.src = src;
-  lightbox.classList.add("show");
-  UI.lightboxOpen = true;
-}
-
-function closeLightbox() {
-  if (!lightbox || !lightboxImg) return;
-
-  lightbox.classList.remove("show");
-  lightboxImg.src = "";
-  UI.lightboxOpen = false;
-}
-
-/* Bind images */
-$$(".zoomable").forEach((img) => {
-  img.addEventListener("click", () => {
-    openLightbox(img.src);
-  });
-});
-
-/* click outside closes */
-if (lightbox) {
-  lightbox.addEventListener("click", closeLightbox);
-}
 
 /* =========================================================
    SIDE MENU CONTROLLER
@@ -110,9 +74,7 @@ $$(".side-nav .nav-link").forEach((link) => {
 
 document.addEventListener("keydown", (e) => {
   if (e.key !== "Escape") return;
-
   if (UI.menuOpen) closeMenu();
-  if (UI.lightboxOpen) closeLightbox();
 });
 
 /* =========================================================

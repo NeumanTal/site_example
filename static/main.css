@@ -304,6 +304,7 @@ p {
   background: var(--color-action);
   color: var(--color-action-text);
   text-decoration: none;
+  margin-top: var(--space-4);
   box-shadow: var(--elevation-subtle);
   transition: var(--duration-base) ease;
 }
@@ -562,130 +563,52 @@ p {
   line-height: var(--line-reading);
 }
 
-/* =========================================================
-   EDITORIAL PORTFOLIO CAROUSEL SYSTEMS
-========================================================= */
-.insta-slider {
-  position: relative;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: var(--space-10) var(--space-6) var(--space-16);
-  margin-inline: calc(var(--space-6) * -1);
-}
-
-.insta-slider::-webkit-scrollbar {
-  display: none;
-}
-
-.slide-track {
-  display: flex;
-  gap: var(--space-7);
-  align-items: center;
-}
-
-.slide-track img {
-  flex: 0 0 auto;
-  width: min(75vw, 32.5rem);
-  /* Use aspect-ratio to keep cards consistent regardless of image shape */
-  aspect-ratio: 4 / 5;
-  height: auto;
-  object-fit: cover;
-  border-radius: var(--radius-modal);
-  scroll-snap-align: center;
-  cursor: pointer;
-  transition: transform var(--duration-editorial) ease, box-shadow var(--duration-editorial) ease, filter var(--duration-editorial) ease;
-  box-shadow: var(--shadow-editorial);
-  filter: var(--saturate-editorial);
-}
-
-.slide-track img:hover {
-  transform: var(--scale-hover);
-  filter: var(--saturate-editorial-hover);
-  box-shadow: var(--shadow-editorial-hover);
-}
-
-.insta-slider::before,
-.insta-slider::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: var(--space-20);
-  pointer-events: none;
-  z-index: var(--stroke-thick);
-}
-
-.insta-slider::before {
-  inset-inline-start: 0;
-  background: linear-gradient(to var(--fade-inline-end), var(--surface-page), var(--surface-fade));
-}
-
-.insta-slider::after {
-  inset-inline-end: 0; 
-  background: linear-gradient(to var(--fade-inline-start), var(--surface-page), var(--surface-fade));
-}
 
 /* =========================================================
-   PORTFOLIO LIGHTBOX SELECTION
+   GALLERY 
 ========================================================= */
-.lightbox {
-  position: fixed;
-  inset: 0;
-  background: var(--surface-overlay);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-8);
-  z-index: var(--z-toast);
+.gallery-container {
+  display: column; /* Uses column-count to handle masonry */
+  column-count: 3; /* Adjusts for larger screens */
+  column-gap: 16px;
 }
 
-.lightbox.show {
-  display: flex;
+.gallery-item {
+  width: 100%;
+  margin-bottom: 16px;
+  break-inside: avoid; /* Prevents images from splitting across columns */
+  border-radius: var(--radius-card);
+  transition: transform 0.2s;
 }
 
-.lightbox img {
-  max-width: 95vw;
-  max-height: 90vh;
-  /* Use contain to ensure the FULL image is always visible in the lightbox */
-  object-fit: contain;
-  border-radius: var(--radius-modal);
-}
+@media (max-width: 1000px) { .gallery-container { column-count: 2; } }
+@media (max-width: 600px) { .gallery-container { column-count: 1; } }
 
 /* =========================================================
    COMPONENTS (Cards, Pricing, FAQs)
 ========================================================= */
+
 .card {
   background: var(--surface-card);
   border: var(--border-subtle);
-  backdrop-filter: blur(var(--blur-md));
-  box-shadow: var(--elevation-card);
   border-radius: var(--radius-card);
   padding: var(--space-8);
-}
-
-.pricing-card {
-  backdrop-filter: blur(20px);
-  border-radius: var(--radius-modal);
-  padding: var(--space-8);
+  backdrop-filter: blur(var(--blur-md));
+  box-shadow: var(--elevation-card);
+  
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  text-align: center;
   transition: transform var(--duration-base) ease, box-shadow var(--duration-base) ease;
-  background:var(--surface-card);
-  border:var(--border-subtle);
-  box-shadow:var(--elevation-card);
 }
 
-.pricing-card:hover {
+.card:hover {
   transform: var(--translate-hover-pricing);
   box-shadow: var(--elevation-floating);
 }
 
-.pricing-card:hover {
-  transform: var(--translate-hover-pricing);
-  box-shadow: var(--elevation-floating);
+.card--centered {
+  text-align: center;
+  align-items: center;
 }
 
 .faq-item {
