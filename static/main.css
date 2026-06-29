@@ -587,7 +587,9 @@ p {
 .slide-track img {
   flex: 0 0 auto;
   width: min(75vw, 32.5rem);
-  height: var(--height-gallery-item);
+  /* Use aspect-ratio to keep cards consistent regardless of image shape */
+  aspect-ratio: 4 / 5;
+  height: auto;
   object-fit: cover;
   border-radius: var(--radius-modal);
   scroll-snap-align: center;
@@ -643,8 +645,10 @@ p {
 }
 
 .lightbox img {
-  max-width: 95%;
-  max-height: 92%;
+  max-width: 95vw;
+  max-height: 90vh;
+  /* Use contain to ensure the FULL image is always visible in the lightbox */
+  object-fit: contain;
   border-radius: var(--radius-modal);
 }
 
