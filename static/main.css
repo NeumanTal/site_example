@@ -163,6 +163,22 @@
   --z-nav: 10000;
   --z-modal: 12000;
   --z-toast: 20000;
+
+  /* --- Gallery System --- */
+--gallery-columns-desktop: 4;
+--gallery-columns-tablet: 3;
+--gallery-columns-mobile: 2;
+
+--gallery-thumbnail-ratio: 4 / 5;
+
+--gallery-lightbox-width: 92vw;
+--gallery-lightbox-height: 90vh;
+
+--gallery-control-size: 3.5rem;
+
+--gallery-gap: var(--space-4);
+
+--gallery-fade-duration: 220ms;
 }
 
 /* =========================================================
@@ -563,42 +579,202 @@ p {
   line-height: var(--line-reading);
 }
 
-
 /* =========================================================
-   GALLERY
+   GALLERY SYSTEM (EDITORIAL BLOCK GRID)
 ========================================================= */
 
-.gallery {
+.gallery-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-    gap: var(--space-5);
+
+    /* compact editorial columns */
+    grid-template-columns: repeat(var(--gallery-columns-desktop), 1fr);
+
+    gap: var(--gallery-gap);
+
+    margin-top: var(--space-8);
+
+    /* 🔥 KEY: keeps Plannie-style centered block */
+    max-width: var(--content-width-wide);
+    margin-inline: auto;
+
+    width: 100%;
 }
+
+/* =========================================================
+   GALLERY ITEM WRAPPER
+========================================================= */
 
 .gallery-item {
-    overflow: hidden;
-    border-radius: var(--radius-modal);
-}
+    margin: 0;
 
-.gallery-item img {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    display: block;
+    overflow: hidden;
+
+    border-radius: var(--radius-modal);
+
+    background: var(--surface-card);
+
+    box-shadow: var(--elevation-card);
 
     cursor: pointer;
 
+    position: relative;
+}
+
+/* =========================================================
+   IMAGE (STABLE EDITORIAL TILE)
+========================================================= */
+
+.gallery-image {
+    display: block;
+
+    width: 100%;
+
+    /* fixed editorial rhythm (this is what you liked before) */
+    height: 260px;
+
+    object-fit: cover;
+
     transition:
-        transform .25s ease,
-        filter .25s ease,
-        box-shadow .25s ease;
+        transform var(--duration-base) ease,
+        filter var(--duration-base) ease;
 
-    box-shadow: var(--shadow-editorial);
+    will-change: transform;
 }
 
-.gallery-item img:hover {
+/* hover micro interaction */
+.gallery-item:hover .gallery-image {
     transform: scale(1.04);
+    filter: brightness(0.95);
 }
 
+/* =========================================================
+   TABLET BREAKPOINT
+========================================================= */
+
+@media (max-width: 1023px) {
+    .gallery-grid {
+        grid-template-columns: repeat(var(--gallery-columns-tablet), 1fr);
+    }
+}
+
+/* =========================================================
+   MOBILE BREAKPOINT
+========================================================= */
+
+@media (max-width: 767px) {
+    .gallery-grid {
+        grid-template-columns: repeat(var(--gallery-columns-mobile), 1fr);
+        gap: calc(var(--gallery-gap) * 0.75);
+    }
+
+    .gallery-image {
+        height: 180px;
+    }
+}
+
+/* =========================================================
+   LIGHTBOX (CLEAN + CONSTRAINED)
+========================================================= */
+
+.lightbox {
+    position: fixed;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--surface-overlay);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: opacity var(--gallery-fade-duration) ease;
+
+    z-index: var(--z-modal);
+}
+
+.lightbox.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* single source of truth image sizing */
+#lightbox-image {
+    max-width: var(--gallery-lightbox-width);
+    max-height: var(--gallery-lightbox-height);
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    display: block;
+
+    margin: auto;
+
+    border-radius: var(--radius-modal);
+
+    user-select: none;
+}
+
+/* =========================================================
+   LIGHTBOX CONTROLS
+========================================================= */
+
+.lightbox button {
+    position: absolute;
+
+    width: var(--gallery-control-size);
+    height: var(--gallery-control-size);
+
+    border: none;
+
+    border-radius: var(--radius-circle);
+
+    background: var(--surface-glass);
+
+    color: var(--color-text-inverse);
+
+    font-size: 1.6rem;
+
+    cursor: pointer;
+
+    transition: background var(--duration-base);
+}
+
+.lightbox button:hover {
+    background: var(--surface-glass-strong);
+}
+
+.lightbox-close {
+    top: var(--space-5);
+    right: var(--space-5);
+}
+
+.lightbox-prev {
+    left: var(--space-5);
+}
+
+.lightbox-next {
+    right: var(--space-5);
+}
+
+/* mobile control scaling */
+@media (max-width: 767px) {
+    .lightbox-prev {
+        left: var(--space-3);
+    }
+
+    .lightbox-next {
+        right: var(--space-3);
+    }
+
+    .lightbox button {
+        width: calc(var(--gallery-control-size) * 0.9);
+        height: calc(var(--gallery-control-size) * 0.9);
+    }
+}
 
 /* =========================================================
    LIGHTBOX
@@ -609,65 +785,110 @@ p {
     inset: 0;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
-    background: rgba(0,0,0,.92);
+    background: var(--surface-overlay);
 
     opacity: 0;
     visibility: hidden;
 
-    transition: .25s;
+    transition: opacity var(--gallery-fade-duration) ease;
 
-    z-index: 9999;
+    z-index: var(--z-modal);
 }
 
 .lightbox.show {
     opacity: 1;
     visibility: visible;
 }
+#lightbox-image {
+    max-width: var(--gallery-lightbox-width);
+    max-height: var(--gallery-lightbox-height);
 
-.lightbox img {
-    max-width: 92vw;
-    max-height: 90vh;
+    width: auto;
+    height: auto;
+
     object-fit: contain;
+
+    user-select: none;
+
+    border-radius: var(--radius-modal);
+    display: block;
+    align-self: center;
+    justify-self: center;
 }
 
-.lightbox-btn {
+/* =========================================================
+   LIGHTBOX CONTROLS
+========================================================= */
+
+.lightbox button {
     position: absolute;
 
-    width: 54px;
-    height: 54px;
+    width: var(--gallery-control-size);
+    height: var(--gallery-control-size);
 
     border: none;
-    border-radius: 50%;
 
-    background: rgba(255,255,255,.18);
+    border-radius: var(--radius-circle);
 
-    color: white;
+    background: var(--surface-glass);
 
-    font-size: 32px;
+    color: var(--color-text-inverse);
+
+    font-size: 1.6rem;
 
     cursor: pointer;
 
-    transition: background .2s;
+    transition: background var(--duration-base);
 }
 
-.lightbox-btn:hover {
-    background: rgba(255,255,255,.35);
-}
-
-.lightbox-prev {
-    left: 24px;
-}
-
-.lightbox-next {
-    right: 24px;
+.lightbox button:hover {
+    background: var(--surface-glass-strong);
 }
 
 .lightbox-close {
-    top: 24px;
-    right: 24px;
+    top: var(--space-5);
+    right: var(--space-5);
+}
+
+.lightbox-prev {
+    left: var(--space-5);
+}
+
+.lightbox-next {
+    right: var(--space-5);
+}
+
+
+/* =========================================================
+   RESPONSIVE TOKENS (NO REWRITING LAYOUTS)
+========================================================= */
+
+@media (max-width: 1023px) {
+    .gallery-grid {
+        grid-template-columns: repeat(var(--gallery-columns-tablet), minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    .gallery-grid {
+        grid-template-columns: repeat(var(--gallery-columns-mobile), minmax(0, 1fr));
+    }
+
+    .lightbox-prev {
+        left: var(--space-3);
+    }
+
+    .lightbox-next {
+        right: var(--space-3);
+    }
+
+    .lightbox button {
+        width: calc(var(--gallery-control-size) * 0.9);
+        height: calc(var(--gallery-control-size) * 0.9);
+    }
 }
 
 /* =========================================================
