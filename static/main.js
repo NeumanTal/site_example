@@ -12,8 +12,8 @@ const UI = {
    SAFE DOM HELPERS
 ========================================================= */
 
-const $ = (selector) => document.querySelector(selector);
-const $$ = (selector) => document.querySelectorAll(selector);
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
 
 /* =========================================================
    ELEMENTS
@@ -21,6 +21,7 @@ const $$ = (selector) => document.querySelectorAll(selector);
 
 const lightbox = $("#lightbox");
 const lightboxImg = $("#lightbox-image");
+
 const scrollTopBtn = $("#scrollTopBtn");
 
 const menuToggle = $("#menu-toggle");
@@ -28,21 +29,23 @@ const sideNav = $("#side-nav");
 const closeMenuBtn = $("#close-menu");
 const menuOverlay = $("#menu-overlay");
 
+const nextBtn = $("#lightbox-next");
+const prevBtn = $("#lightbox-prev");
+const closeBtn = $("#lightbox-close");
+
 /* =========================================================
-   GALLERY SETUP
+   GALLERY
 ========================================================= */
 
 const galleryImages = Array.from($$(".gallery-image"));
 
 /* =========================================================
-   SCROLL REVEAL (UNCHANGED)
+   REVEAL
 ========================================================= */
 
 const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-        }
+    entries.forEach(e => {
+        if (e.isIntersecting) e.target.classList.add("active");
     });
 }, { threshold: 0.05 });
 
@@ -51,7 +54,7 @@ document.querySelectorAll(".reveal").forEach(el => {
 });
 
 /* =========================================================
-   BODY SCROLL LOCK (CRITICAL FIX)
+   SCROLL LOCK (SAFE)
 ========================================================= */
 
 function lockPage() {
@@ -65,14 +68,14 @@ function unlockPage() {
 }
 
 /* =========================================================
-   LIGHTBOX CORE (SINGLE SOURCE OF TRUTH)
+   LIGHTBOX CORE
 ========================================================= */
 
 function openLightbox(index) {
     if (!lightbox || !lightboxImg) return;
 
-    UI.currentIndex = index;
     UI.lightboxOpen = true;
+    UI.currentIndex = index;
 
     const img = galleryImages[index];
     if (!img) return;
@@ -99,32 +102,8 @@ function closeLightbox() {
     unlockPage();
 }
 
-/* Bind gallery clicks */
-galleryImages.forEach((img, index) => {
-    img.addEventListener("click", () => {
-        openLightbox(index);
-    });
-});
-
-/* click outside closes */
-if (lightbox) {
-    lightbox.addEventListener("click", (e) => {
-        if (e.target === lightbox) {
-            closeLightbox();
-        }
-    });
-}
-
-/* ESC key closes everything safely */
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-        if (UI.lightboxOpen) closeLightbox();
-        if (UI.menuOpen) closeMenu();
-    }
-});
-
 /* =========================================================
-   LIGHTBOX NAV (SAFE WRAPPED)
+   NAVIGATION
 ========================================================= */
 
 function showNext() {
@@ -143,106 +122,176 @@ function showPrev() {
     openLightbox(UI.currentIndex);
 }
 
-/* Optional button hooks */
-const nextBtn = $("#lightbox-next");
-const prevBtn = $("#lightbox-prev");
+/* =========================================================
+   BIND GALLERY CLICK
+========================================================= */
 
-if (nextBtn) {
-    nextBtn.addEventListener("pointerup", (e) => {
-        e.stopPropagation();
-        showNext();
-    });
-}
-
-if (prevBtn) {
-    prevBtn.addEventListener("pointerup", (e) => {
-        e.stopPropagation();
-        showPrev();
-    });
-}
+galleryImages.forEach((img, i) => {
+    img.addEventListener("click", () => openLightbox(i));
+});
 
 /* =========================================================
-   MENU SYSTEM
+   LIGHTBOX CLICK OUTSIDE
+========================================================= */
+
+lightbox?.addEventListener("pointerdown", (e) => {
+    if (e.target === lightbox) closeLightbox();
+});
+
+/* =========================================================
+   BUTTONS (FIXED POINTER EVENTS)
+========================================================= */
+
+nextBtn?.addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+    showNext();
+});
+
+prevBtn?.addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+    showPrev();
+});
+
+closeBtn?.addEventListener("pointerdown", (e) => {
+    e.stopPropagation();
+    closeLightbox();
+});
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        if (UI.lightboxOpen) closeLightbox();
+        if (UI.menuOpen) closeMenu();
+    }
+
+    if (!UI.lightboxOpen) return;
+
+    if (e.key === "ArrowRight") showPrev();
+    if (e.key === "ArrowLeft") showNext();
+});
+
+/* =========================================================
+   INSTAGRAM DRAG (SAFE POINTER VERSION)
+========================================================= */
+
+let startX = 0;
+let dragDelta = 0;
+let dragging = false;
+
+function setDrag(px) {
+    if (!lightboxImg) return;
+    lightboxImg.style.transform = `translateX(${px}px)`;
+    lightboxImg.style.transition = "none";
+}
+
+function resetDrag() {
+    if (!lightboxImg) return;
+    lightboxImg.style.transform = "";
+    lightboxImg.style.transition = "";
+}
+
+lightboxImg?.addEventListener("pointerdown", (e) => {
+    if (!UI.lightboxOpen) return;
+
+    dragging = true;
+    startX = e.clientX;
+
+    lightboxImg.setPointerCapture(e.pointerId);
+});
+
+lightboxImg?.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+
+    dragDelta = e.clientX - startX;
+
+    setDrag(dragDelta * 0.35);
+});
+
+lightboxImg?.addEventListener("pointerup", () => {
+    if (!dragging) return;
+
+    dragging = false;
+
+    const threshold = 70;
+
+    resetDrag();
+
+    if (Math.abs(dragDelta) > threshold) {
+        dragDelta < 0 ? showNext() : showPrev();
+    }
+
+    dragDelta = 0;
+});
+
+lightboxImg?.addEventListener("pointercancel", () => {
+    dragging = false;
+    resetDrag();
+});
+
+/* =========================================================
+   MENU
 ========================================================= */
 
 function openMenu() {
-    if (!sideNav || !menuOverlay) return;
-
     UI.menuOpen = true;
-
-    sideNav.classList.add("open");
-    menuOverlay.classList.add("show");
-
+    sideNav?.classList.add("open");
+    menuOverlay?.classList.add("show");
     document.body.style.overflow = "hidden";
 }
 
 function closeMenu() {
-    if (!sideNav || !menuOverlay) return;
-
     UI.menuOpen = false;
-
-    sideNav.classList.remove("open");
-    menuOverlay.classList.remove("show");
-
+    sideNav?.classList.remove("open");
+    menuOverlay?.classList.remove("show");
     document.body.style.overflow = "";
 }
 
-if (menuToggle) menuToggle.addEventListener("click", openMenu);
-if (closeMenuBtn) closeMenuBtn.addEventListener("click", closeMenu);
-if (menuOverlay) menuOverlay.addEventListener("click", closeMenu);
+menuToggle?.addEventListener("click", openMenu);
+closeMenuBtn?.addEventListener("click", closeMenu);
+menuOverlay?.addEventListener("click", closeMenu);
 
-$$(".side-nav .nav-link").forEach(link => {
-    link.addEventListener("click", closeMenu);
-});
+$$(".side-nav .nav-link").forEach(l => l.addEventListener("click", closeMenu));
 
 /* =========================================================
-   SCROLL TOP BUTTON (FIXED INTEGRATION)
+   SCROLL TOP
 ========================================================= */
 
 if (scrollTopBtn) {
-
     window.addEventListener("scroll", () => {
         scrollTopBtn.classList.toggle("show", window.scrollY > 500);
     });
 
     scrollTopBtn.addEventListener("click", () => {
+        if (UI.lightboxOpen) closeLightbox();
 
-        // ALWAYS close lightbox safely first
-        if (UI.lightboxOpen) {
-            closeLightbox();
-        }
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
 
 /* =========================================================
-   ACTIVE SECTION TRACKING
+   ACTIVE SECTION
 ========================================================= */
 
 const sections = $$("section[id]");
 const navLinks = $$(".nav-link");
 
-function updateActiveSection() {
+function updateActive() {
     let current = "";
 
-    sections.forEach(section => {
-        const top = section.offsetTop - 200;
-        if (window.scrollY >= top) {
-            current = section.id;
+    sections.forEach(s => {
+        if (window.scrollY >= s.offsetTop - 200) {
+            current = s.id;
         }
     });
 
-    navLinks.forEach(link => {
-        link.classList.remove("active");
-
-        const href = link.getAttribute("href");
-        if (href === "#" + current) {
-            link.classList.add("active");
-        }
+    navLinks.forEach(l => {
+        l.classList.toggle(
+            "active",
+            l.getAttribute("href") === "#" + current
+        );
     });
 }
 
@@ -250,46 +299,12 @@ let ticking = false;
 
 window.addEventListener("scroll", () => {
     if (!ticking) {
-        window.requestAnimationFrame(() => {
-            updateActiveSection();
+        requestAnimationFrame(() => {
+            updateActive();
             ticking = false;
         });
         ticking = true;
     }
 });
 
-window.addEventListener("load", updateActiveSection);
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-const SWIPE_THRESHOLD = 50;
-
-function handleSwipe() {
-    if (!UI.lightboxOpen) return;
-
-    const deltaX = touchEndX - touchStartX;
-
-    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
-
-    if (deltaX < 0) {
-        // swipe left → next image
-        showNext();
-    } else {
-        // swipe right → previous image
-        showPrev();
-    }
-}
-
-/* Attach to lightbox image area */
-if (lightbox) {
-
-    lightbox.addEventListener("touchstart", (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    lightbox.addEventListener("touchend", (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    });
-}
+window.addEventListener("load", updateActive);
