@@ -438,7 +438,7 @@ p {
 }
 
 /* =========================================================
-   MOBILE TOGGLE DRAWER SYSTEMS
+   MENU TOGGLE DRAWER SYSTEMS
 ========================================================= */
 .menu-toggle {
   position: fixed;
@@ -648,18 +648,11 @@ p {
 
 .gallery-grid {
     display: grid;
-
-    /* compact editorial columns */
     grid-template-columns: repeat(var(--gallery-columns-desktop), 1fr);
-
     gap: var(--gallery-gap);
-
     margin-top: var(--space-8);
-
-    /* 🔥 KEY: keeps Plannie-style centered block */
     max-width: var(--content-width-wide);
     margin-inline: auto;
-
     width: 100%;
 }
 
@@ -885,10 +878,10 @@ p {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  margin-top: var(--space-10);
   margin-bottom: var(--space-4);
   font-size: 0.9rem;
 }
-
 
 .breadcrumbs a,
 .breadcrumbs a:visited {
@@ -896,16 +889,13 @@ p {
   text-decoration: none;
 }
 
-
 .breadcrumbs a:hover {
   text-decoration: underline;
 }
 
-
 .breadcrumb-separator {
   opacity: 0.6;
 }
-
 
 .breadcrumb-current {
   font-weight: 500;
@@ -1028,10 +1018,11 @@ p {
 }
 
 .contact-pill a {
-  color: var(--color-text);
-  text-decoration: none;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: var(--color-text);
+  text-decoration: none;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-pill);
   transition: var(--duration-base);
