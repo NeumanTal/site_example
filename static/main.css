@@ -307,28 +307,91 @@ p {
   opacity: var(--opacity-default);
   transform: var(--translate-reset);
 }
-
 /* =========================================================
    BUTTON SYSTEMS
 ========================================================= */
+
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: var(--space-4) var(--space-6);
+
   border-radius: var(--radius-pill);
+
   background: var(--color-action);
-  color: var(--color-action-text);
+
+  color: var(--color-action-text) !important;
+
   text-decoration: none;
+
   margin-top: var(--space-4);
+
   box-shadow: var(--elevation-subtle);
+
   transition: var(--duration-base) ease;
 }
 
+
+.btn:visited {
+  color: var(--color-action-text) !important;
+}
+
+
 .btn:hover {
   background: var(--color-action-hover);
+
+  color: var(--color-action-text) !important;
+
   transform: var(--translate-hover-lift);
+
   box-shadow: var(--elevation-card);
+}
+
+
+
+/* =========================================================
+   CARD LAYOUT
+   Keeps actions aligned at the bottom
+========================================================= */
+
+.card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100%;
+
+}
+
+
+.card .btn {
+
+  margin-top: auto;
+
+}
+
+
+
+/* Article cards specifically */
+
+.article-card {
+
+  display: flex;
+
+  flex-direction: column;
+
+  height: 100%;
+
+}
+
+
+.article-card .btn {
+
+  margin-top: auto;
+
 }
 
 /* =========================================================
@@ -688,19 +751,29 @@ p {
 
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
 
     transition: opacity var(--gallery-fade-duration) ease;
 
     z-index: var(--z-modal);
+
+    /* allows swipe handling without browser interference */
+    touch-action: none;
 }
 
 .lightbox.show {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
-/* single source of truth image sizing */
+
+/* =========================================================
+   LIGHTBOX IMAGE
+========================================================= */
+
 #lightbox-image {
+
     max-width: var(--gallery-lightbox-width);
     max-height: var(--gallery-lightbox-height);
 
@@ -716,13 +789,21 @@ p {
     border-radius: var(--radius-modal);
 
     user-select: none;
+
+    position: relative;
+    z-index: 1;
+
+    /* enables horizontal swipe */
+    touch-action: pan-y;
 }
+
 
 /* =========================================================
    LIGHTBOX CONTROLS
 ========================================================= */
 
 .lightbox button {
+
     position: absolute;
 
     width: var(--gallery-control-size);
@@ -740,17 +821,29 @@ p {
 
     cursor: pointer;
 
-    transition: background var(--duration-base);
+    transition:
+        background var(--duration-base),
+        transform var(--duration-base);
+
+    z-index: 5;
 }
+
 
 .lightbox button:hover {
     background: var(--surface-glass-strong);
+    transform: var(--translate-hover-micro);
 }
+
+
+/* close */
 
 .lightbox-close {
     top: var(--space-5);
     right: var(--space-5);
 }
+
+
+/* navigation */
 
 .lightbox-prev {
     left: var(--space-5);
@@ -760,8 +853,13 @@ p {
     right: var(--space-5);
 }
 
-/* mobile control scaling */
+
+/* =========================================================
+   MOBILE LIGHTBOX CONTROLS
+========================================================= */
+
 @media (max-width: 767px) {
+
     .lightbox-prev {
         left: var(--space-3);
     }
@@ -770,100 +868,40 @@ p {
         right: var(--space-3);
     }
 
+
     .lightbox button {
+
         width: calc(var(--gallery-control-size) * 0.9);
         height: calc(var(--gallery-control-size) * 0.9);
+
+        font-size: 1.4rem;
     }
 }
-
 /* =========================================================
-   LIGHTBOX
+   BREADCRUBMS
 ========================================================= */
 
-.lightbox {
-    position: fixed;
-    inset: 0;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background: var(--surface-overlay);
-
-    opacity: 0;
-    visibility: hidden;
-
-    transition: opacity var(--gallery-fade-duration) ease;
-
-    z-index: var(--z-modal);
+.breadcrumbs {
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
-.lightbox.show {
-    opacity: 1;
-    visibility: visible;
+.breadcrumbs a {
+  text-decoration: none;
 }
-#lightbox-image {
-    max-width: var(--gallery-lightbox-width);
-    max-height: var(--gallery-lightbox-height);
 
-    width: auto;
-    height: auto;
+.breadcrumb-separator {
+  margin: 0 0.5rem;
+}
 
-    object-fit: contain;
-
-    user-select: none;
-
-    border-radius: var(--radius-modal);
-    display: block;
-    align-self: center;
-    justify-self: center;
+.breadcrumb-current {
+  font-weight: 500;
 }
 
 /* =========================================================
-   LIGHTBOX CONTROLS
-========================================================= */
-
-.lightbox button {
-    position: absolute;
-
-    width: var(--gallery-control-size);
-    height: var(--gallery-control-size);
-
-    border: none;
-
-    border-radius: var(--radius-circle);
-
-    background: var(--surface-glass);
-
-    color: var(--color-text-inverse);
-
-    font-size: 1.6rem;
-
-    cursor: pointer;
-
-    transition: background var(--duration-base);
-}
-
-.lightbox button:hover {
-    background: var(--surface-glass-strong);
-}
-
-.lightbox-close {
-    top: var(--space-5);
-    right: var(--space-5);
-}
-
-.lightbox-prev {
-    left: var(--space-5);
-}
-
-.lightbox-next {
-    right: var(--space-5);
-}
-
-
-/* =========================================================
-   RESPONSIVE TOKENS (NO REWRITING LAYOUTS)
+   RESPONSIVE TOKENS 
 ========================================================= */
 
 @media (max-width: 1023px) {

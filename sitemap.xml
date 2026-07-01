@@ -6,70 +6,98 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>https://neumantal.github.io/site_example/</loc>
-<lastmod>2026-06-30T09:28:58-00:00</lastmod>
+<lastmod>2026-07-01T12:53:55-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://neumantal.github.io/site_example/blog/</loc>
-<lastmod>2026-06-30T09:28:58-00:00</lastmod>
+<lastmod>2026-07-01T12:53:55-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://neumantal.github.io/site_example/blog/benefits-of-reflexology-for-stress-relief/</loc>
-<lastmod>2026-06-03T00:00:00+03:00</lastmod>
+<loc>https://neumantal.github.io/site_example/blog/reflexology-and-sleep/</loc>
+<lastmod>2026-07-22T00:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://neumantal.github.io/site_example/blog/benefits-of-reflexology/</loc>
-<lastmod>2026-06-02T00:00:00+03:00</lastmod>
+<loc>https://neumantal.github.io/site_example/blog/reflexology-during-pregnancy/</loc>
+<lastmod>2026-07-29T00:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://neumantal.github.io/site_example/blog/cats-night-creatures/</loc>
-<lastmod>2026-06-03T00:00:00+03:00</lastmod>
+<loc>https://neumantal.github.io/site_example/blog/reflexology-for-back-pain/</loc>
+<lastmod>2026-07-25T00:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://neumantal.github.io/site_example/blog/reflexology-for-headaches/</loc>
+<lastmod>2026-07-18T00:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://neumantal.github.io/site_example/blog/reflexology-for-women-hormones-cycle-pregnancy/</loc>
+<lastmod>2026-07-11T00:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://neumantal.github.io/site_example/blog/sympathetic-and-parasympathetic-nervous-system/</loc>
+<lastmod>2026-07-08T00:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://neumantal.github.io/site_example/blog/what-is-reflexology-and-how-does-it-work/</loc>
-<lastmod>2026-06-03T00:00:00+03:00</lastmod>
+<lastmod>2026-07-01T00:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://neumantal.github.io/site_example/blog/what-to-expect-during-your-first-reflexology-session/</loc>
-<lastmod>2026-06-03T00:00:00+03:00</lastmod>
+<loc>https://neumantal.github.io/site_example/blog/what-to-expect-after-reflexology-treatment/</loc>
+<lastmod>2026-07-15T00:00:00+03:00</lastmod>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://neumantal.github.io/site_example/blog/what-to-know-before-your-reflexology-session/</loc>
+<lastmod>2026-07-04T00:00:00+03:00</lastmod>
 <changefreq>weekly</changefreq>
 <priority>0.8</priority>
 </url>
 
 <url>
 <loc>https://neumantal.github.io/site_example/faq/</loc>
-<lastmod>2026-06-30T09:28:58-00:00</lastmod>
+<lastmod>2026-07-01T12:53:55-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://neumantal.github.io/site_example/testimonials/</loc>
-<lastmod>2026-06-30T09:28:58-00:00</lastmod>
+<lastmod>2026-07-01T12:53:55-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>https://neumantal.github.io/site_example/workshops/</loc>
-<lastmod>2026-06-30T09:28:58-00:00</lastmod>
+<lastmod>2026-07-01T12:53:55-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.5</priority>
 </url>

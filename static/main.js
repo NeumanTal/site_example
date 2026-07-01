@@ -1,5 +1,5 @@
 /* =========================================================
-   SIMPLE UI STATE (SINGLE SOURCE OF TRUTH)
+   SIMPLE UI STATE
 ========================================================= */
 
 const UI = {
@@ -8,12 +8,14 @@ const UI = {
     currentIndex: 0,
 };
 
+
 /* =========================================================
-   SAFE DOM HELPERS
+   HELPERS
 ========================================================= */
 
-const $ = (s) => document.querySelector(s);
-const $$ = (s) => document.querySelectorAll(s);
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => document.querySelectorAll(selector);
+
 
 /* =========================================================
    ELEMENTS
@@ -22,6 +24,12 @@ const $$ = (s) => document.querySelectorAll(s);
 const lightbox = $("#lightbox");
 const lightboxImg = $("#lightbox-image");
 
+const nextBtn = $(".lightbox-next");
+const prevBtn = $(".lightbox-prev");
+const closeBtn = $(".lightbox-close");
+
+const galleryImages = Array.from($$(".gallery-image"));
+
 const scrollTopBtn = $("#scrollTopBtn");
 
 const menuToggle = $("#menu-toggle");
@@ -29,32 +37,27 @@ const sideNav = $("#side-nav");
 const closeMenuBtn = $("#close-menu");
 const menuOverlay = $("#menu-overlay");
 
-const nextBtn = $("#lightbox-next");
-const prevBtn = $("#lightbox-prev");
-const closeBtn = $("#lightbox-close");
-
-/* =========================================================
-   GALLERY
-========================================================= */
-
-const galleryImages = Array.from($$(".gallery-image"));
 
 /* =========================================================
    REVEAL
 ========================================================= */
 
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add("active");
-    });
-}, { threshold: 0.05 });
+const revealObserver = new IntersectionObserver(
+    entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("active");
+            }
+        });
+    },
+    { threshold: 0.05 }
+);
 
-document.querySelectorAll(".reveal").forEach(el => {
-    revealObserver.observe(el);
-});
+$$(".reveal").forEach(el => revealObserver.observe(el));
+
 
 /* =========================================================
-   SCROLL LOCK (SAFE)
+   SCROLL LOCK
 ========================================================= */
 
 function lockPage() {
@@ -62,249 +65,384 @@ function lockPage() {
     document.documentElement.style.overflow = "hidden";
 }
 
+
 function unlockPage() {
     document.body.style.overflow = "";
     document.documentElement.style.overflow = "";
 }
 
+
 /* =========================================================
-   LIGHTBOX CORE
+   LIGHTBOX
 ========================================================= */
 
 function openLightbox(index) {
+
     if (!lightbox || !lightboxImg) return;
+
+    const img = galleryImages[index];
+
+    if (!img) return;
+
 
     UI.lightboxOpen = true;
     UI.currentIndex = index;
 
-    const img = galleryImages[index];
-    if (!img) return;
 
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt || "";
+
 
     lightbox.classList.add("show");
 
     lockPage();
 }
 
+
+
 function closeLightbox() {
+
     if (!lightbox) return;
+
 
     UI.lightboxOpen = false;
 
     lightbox.classList.remove("show");
 
+
     if (lightboxImg) {
         lightboxImg.src = "";
+        lightboxImg.style.transform = "";
     }
+
 
     unlockPage();
 }
 
-/* =========================================================
-   NAVIGATION
-========================================================= */
 
-function showNext() {
-    if (!galleryImages.length) return;
 
-    UI.currentIndex = (UI.currentIndex + 1) % galleryImages.length;
-    openLightbox(UI.currentIndex);
-}
-
-function showPrev() {
-    if (!galleryImages.length) return;
+function nextImage() {
 
     UI.currentIndex =
-        (UI.currentIndex - 1 + galleryImages.length) % galleryImages.length;
+        (UI.currentIndex + 1) % galleryImages.length;
 
     openLightbox(UI.currentIndex);
 }
 
-/* =========================================================
-   BIND GALLERY CLICK
-========================================================= */
 
-galleryImages.forEach((img, i) => {
-    img.addEventListener("click", () => openLightbox(i));
+
+function prevImage() {
+
+    UI.currentIndex =
+        (UI.currentIndex - 1 + galleryImages.length)
+        % galleryImages.length;
+
+    openLightbox(UI.currentIndex);
+}
+
+
+
+/* gallery open */
+
+galleryImages.forEach((img, index) => {
+
+    img.addEventListener("click", () => {
+        openLightbox(index);
+    });
+
 });
 
-/* =========================================================
-   LIGHTBOX CLICK OUTSIDE
-========================================================= */
 
-lightbox?.addEventListener("pointerdown", (e) => {
-    if (e.target === lightbox) closeLightbox();
-});
 
-/* =========================================================
-   BUTTONS (FIXED POINTER EVENTS)
-========================================================= */
+/* buttons */
 
-nextBtn?.addEventListener("pointerdown", (e) => {
+nextBtn?.addEventListener("click", e => {
     e.stopPropagation();
-    showNext();
+    nextImage();
 });
 
-prevBtn?.addEventListener("pointerdown", (e) => {
+
+prevBtn?.addEventListener("click", e => {
     e.stopPropagation();
-    showPrev();
+    prevImage();
 });
 
-closeBtn?.addEventListener("pointerdown", (e) => {
+
+closeBtn?.addEventListener("click", e => {
     e.stopPropagation();
     closeLightbox();
 });
+
+
+
+/* click background */
+
+lightbox?.addEventListener("click", e => {
+
+    if (e.target === lightbox) {
+        closeLightbox();
+    }
+
+});
+
+
+
+/* =========================================================
+   MOBILE SWIPE
+========================================================= */
+
+let startX = 0;
+let deltaX = 0;
+let dragging = false;
+
+
+function resetSwipe() {
+
+    if (!lightboxImg) return;
+
+    lightboxImg.style.transform = "";
+    lightboxImg.style.transition = "";
+
+}
+
+
+
+lightboxImg?.addEventListener(
+    "pointerdown",
+    e => {
+
+        if (!UI.lightboxOpen) return;
+
+
+        dragging = true;
+        startX = e.clientX;
+        deltaX = 0;
+
+
+        e.preventDefault();
+
+        lightboxImg.setPointerCapture(e.pointerId);
+
+    }
+);
+
+
+
+lightboxImg?.addEventListener(
+    "pointermove",
+    e => {
+
+        if (!dragging) return;
+
+
+        e.preventDefault();
+
+
+        deltaX = e.clientX - startX;
+
+
+        lightboxImg.style.transform =
+            `translateX(${deltaX * 0.35}px)`;
+
+        lightboxImg.style.transition = "none";
+
+    },
+    { passive:false }
+);
+
+
+
+function finishSwipe() {
+
+    if (!dragging) return;
+
+
+    dragging = false;
+
+
+    const threshold = 70;
+
+
+    resetSwipe();
+
+
+    if (Math.abs(deltaX) > threshold) {
+
+        if (deltaX < 0) {
+            nextImage();
+        } else {
+            prevImage();
+        }
+
+    }
+
+
+    deltaX = 0;
+
+}
+
+
+
+lightboxImg?.addEventListener(
+    "pointerup",
+    finishSwipe
+);
+
+
+lightboxImg?.addEventListener(
+    "pointercancel",
+    finishSwipe
+);
+
+
+lightboxImg?.addEventListener(
+    "pointerleave",
+    finishSwipe
+);
+
+
 
 /* =========================================================
    KEYBOARD
 ========================================================= */
 
-document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-        if (UI.lightboxOpen) closeLightbox();
-        if (UI.menuOpen) closeMenu();
+document.addEventListener(
+    "keydown",
+    e => {
+
+        if (e.key === "Escape" && UI.lightboxOpen) {
+            closeLightbox();
+        }
+
+
+        if (!UI.lightboxOpen) return;
+
+
+        if (e.key === "ArrowRight") {
+            prevImage();
+        }
+
+
+        if (e.key === "ArrowLeft") {
+            nextImage();
+        }
+
     }
+);
 
-    if (!UI.lightboxOpen) return;
 
-    if (e.key === "ArrowRight") showPrev();
-    if (e.key === "ArrowLeft") showNext();
-});
-
-/* =========================================================
-   INSTAGRAM DRAG (SAFE POINTER VERSION)
-========================================================= */
-
-let startX = 0;
-let dragDelta = 0;
-let dragging = false;
-
-function setDrag(px) {
-    if (!lightboxImg) return;
-    lightboxImg.style.transform = `translateX(${px}px)`;
-    lightboxImg.style.transition = "none";
-}
-
-function resetDrag() {
-    if (!lightboxImg) return;
-    lightboxImg.style.transform = "";
-    lightboxImg.style.transition = "";
-}
-
-lightboxImg?.addEventListener("pointerdown", (e) => {
-    if (!UI.lightboxOpen) return;
-
-    dragging = true;
-    startX = e.clientX;
-
-    lightboxImg.setPointerCapture(e.pointerId);
-});
-
-lightboxImg?.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-
-    dragDelta = e.clientX - startX;
-
-    setDrag(dragDelta * 0.35);
-});
-
-lightboxImg?.addEventListener("pointerup", () => {
-    if (!dragging) return;
-
-    dragging = false;
-
-    const threshold = 70;
-
-    resetDrag();
-
-    if (Math.abs(dragDelta) > threshold) {
-        dragDelta < 0 ? showNext() : showPrev();
-    }
-
-    dragDelta = 0;
-});
-
-lightboxImg?.addEventListener("pointercancel", () => {
-    dragging = false;
-    resetDrag();
-});
 
 /* =========================================================
    MENU
 ========================================================= */
 
 function openMenu() {
+
     UI.menuOpen = true;
+
     sideNav?.classList.add("open");
     menuOverlay?.classList.add("show");
-    document.body.style.overflow = "hidden";
+
 }
+
+
 
 function closeMenu() {
+
     UI.menuOpen = false;
+
     sideNav?.classList.remove("open");
     menuOverlay?.classList.remove("show");
-    document.body.style.overflow = "";
+
 }
 
+
+
 menuToggle?.addEventListener("click", openMenu);
+
 closeMenuBtn?.addEventListener("click", closeMenu);
+
 menuOverlay?.addEventListener("click", closeMenu);
 
-$$(".side-nav .nav-link").forEach(l => l.addEventListener("click", closeMenu));
+
+$$(".side-nav .nav-link")
+.forEach(link =>
+    link.addEventListener("click", closeMenu)
+);
+
+
 
 /* =========================================================
    SCROLL TOP
 ========================================================= */
 
 if (scrollTopBtn) {
+
     window.addEventListener("scroll", () => {
-        scrollTopBtn.classList.toggle("show", window.scrollY > 500);
+
+        scrollTopBtn.classList.toggle(
+            "show",
+            window.scrollY > 500
+        );
+
     });
 
-    scrollTopBtn.addEventListener("click", () => {
-        if (UI.lightboxOpen) closeLightbox();
 
-        window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    scrollTopBtn.addEventListener(
+        "click",
+        () => {
+
+            if (UI.lightboxOpen) {
+                closeLightbox();
+            }
+
+            window.scrollTo({
+                top:0,
+                behavior:"smooth"
+            });
+
+        }
+    );
+
 }
 
+
+
 /* =========================================================
-   ACTIVE SECTION
+   ACTIVE NAV
 ========================================================= */
 
 const sections = $$("section[id]");
 const navLinks = $$(".nav-link");
 
+
 function updateActive() {
+
     let current = "";
 
-    sections.forEach(s => {
-        if (window.scrollY >= s.offsetTop - 200) {
-            current = s.id;
+
+    sections.forEach(section => {
+
+        if (window.scrollY >= section.offsetTop - 200) {
+            current = section.id;
         }
+
     });
 
-    navLinks.forEach(l => {
-        l.classList.toggle(
+
+    navLinks.forEach(link => {
+
+        link.classList.toggle(
             "active",
-            l.getAttribute("href") === "#" + current
+            link.getAttribute("href") === "#" + current
         );
+
     });
+
 }
 
-let ticking = false;
 
-window.addEventListener("scroll", () => {
-    if (!ticking) {
-        requestAnimationFrame(() => {
-            updateActive();
-            ticking = false;
-        });
-        ticking = true;
-    }
-});
+
+window.addEventListener("scroll", updateActive);
 
 window.addEventListener("load", updateActive);
